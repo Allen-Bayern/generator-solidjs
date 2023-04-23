@@ -1,3 +1,3 @@
 import { SolidGenerator } from "./SolidGenerator";
 
-module.exports = SolidGenerator;
+export default SolidGenerator;
