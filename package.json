@@ -11,7 +11,6 @@
   "keywords": [
     "yeoman-generator"
   ],
-
   "scripts": {
     "build": "rollup -c"
   },
@@ -19,6 +18,7 @@
     "yeoman-generator": "^5.8.0"
   },
   "devDependencies": {
+    "@rollup/plugin-terser": "^0.4.1",
     "@types/yeoman-generator": "^5.2.11",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@typescript-eslint/parser": "^5.59.0",

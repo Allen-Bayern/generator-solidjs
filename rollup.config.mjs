@@ -1,4 +1,5 @@
 import typescript from "rollup-plugin-typescript2";
+import terser from "@rollup/plugin-terser";
 
 export default {
     input: {
@@ -8,5 +9,10 @@ export default {
         dir: "./generators",
         format: "cjs",
     },
-    plugins: [typescript()],
+    plugins: [
+        typescript(),
+        terser({
+            maxWorkers: 2,
+        }),
+    ],
 };
