@@ -4,28 +4,22 @@ import { kebabCase } from "lodash-es";
 // 问题列表
 import QuestionTranslation from './config/question-translation.json';
 
+// 答案类型
+import type { UsedAnswers } from './config/UsedTypes';
+
 // Prefixes
 const language = "[language]";
 const feature = "[feature]";
 
-// 答案类型
-export interface UsedAnswers {
-    // 语言
-    language: string;
-    // 应用名称
-    projectName: string;
-    // 是否用TS
-    isTsNeeded: boolean;
-    // css预处理器
-    cssPre: string;
-    // Eslint
-    eslintUse: boolean;
-}
-
 // 语言&&问题列表
 const { languages, questions } = QuestionTranslation;
 
-export const getQuestions = (name?: string): Question<UsedAnswers>[] => ([
+/**
+ * 生成问题
+ * @param name 项目名称, 默认为空，以便在没有输入参数时提示输入项目名称
+ * @returns 问题列表
+ */
+export const getQuestions = (name = ''): Question<UsedAnswers>[] => ([
     // 问题: 使用中文还是英文
     {
         type: "list",
