@@ -1,0 +1,30 @@
+{
+    "languages": [
+        {
+            "name": "English",
+            "value": "en"
+        },
+        {
+            "name": "中文",
+            "value": "zhCn"
+        }
+    ],
+    "questions": [
+        {
+            "en": "Your Project Name:",
+            "zhCn": "请输入项目名称"
+        },
+        {
+            "en": "Use TypeScript?",
+            "zhCn": "是否使用TypeScript?"
+        },
+        {
+            "en": "Which CSS preprocessor do you prefer?",
+            "zhCn": "使用以下哪种CSS预处理器?"
+        },
+        {
+            "en": "Use Eslint?",
+            "zhCn": "是否使用Eslint?"
+        }
+    ]
+}
