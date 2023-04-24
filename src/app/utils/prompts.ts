@@ -2,7 +2,7 @@ import type { Question } from "yeoman-generator";
 import { kebabCase } from "lodash-es";
 
 // 问题列表
-import QuestionTranslation from './question-translation.json';
+import QuestionTranslation from './config/question-translation.json';
 
 // Prefixes
 const language = "[language]";
