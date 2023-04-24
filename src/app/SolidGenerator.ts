@@ -25,4 +25,20 @@ export const SolidGenerator = class extends Generator {
     async prompting() {
         this.__replies = await this.prompt(getQuestions(this.appname));
     }
+
+    configuring() {
+
+    }
+
+    writing() {
+
+    }
+
+    install() {
+
+    }
+
+    end() {
+        
+    }
 };
