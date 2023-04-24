@@ -19,7 +19,7 @@ const { languages, questions } = QuestionTranslation;
  * @param name 项目名称, 默认为空，以便在没有输入参数时提示输入项目名称
  * @returns 问题列表
  */
-export const getQuestions = (name = ''): Question<UsedAnswers>[] => ([
+export const useQuestions = (name = ''): Question<UsedAnswers>[] => ([
     // 问题: 使用中文还是英文
     {
         type: "list",

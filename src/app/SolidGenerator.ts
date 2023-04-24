@@ -2,7 +2,7 @@ import { exit } from 'process';
 import Generator from "yeoman-generator";
 import chalk from 'chalk';
 
-import { getQuestions } from "./utils/prompts";
+import { useQuestions } from "./utils/prompts";
 import { useEndTranslations } from "./utils/config/EndTranslation";
 import { UsedAnswers, UsedOptions } from "./utils/config/UsedTypes";
 
@@ -29,7 +29,7 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
 
     async prompting() {
         try {
-            this.__replies = await this.prompt(getQuestions(this.appname));
+            this.__replies = await this.prompt(useQuestions(this.appname));
         } catch (error) {
             console.log(chalk.red(`Sorry, we meet some error and will quit! The error is: ${error}`));
             exit(1);
