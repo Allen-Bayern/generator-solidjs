@@ -1,7 +1,9 @@
 import Generator from "yeoman-generator";
-import { getQuestions } from "./utils/prompts";
+import { getQuestions, UsedAnswers } from "./utils/prompts";
 
 export const SolidGenerator = class extends Generator {
+    private __replies: UsedAnswers | null = null;
+
     constructor(args: string | string[], opts: Generator.GeneratorOptions) {
         super(args, opts);
 
@@ -13,11 +15,13 @@ export const SolidGenerator = class extends Generator {
         });
     }
 
-    initializing(): Promise<void> {
-        return this.prompt(getQuestions(this.appname)).then(
-            answers => {
-                console.log(answers);
-            }
-        )
+    initializing() {
+        /**
+         * developing...
+         */
+    }
+
+    async prompting() {
+        this.__replies = await this.prompt(getQuestions(this.appname));
     }
 };
