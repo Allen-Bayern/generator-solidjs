@@ -62,7 +62,7 @@ export const getQuestions = (name?: string): Question<UsedAnswers>[] => ([
         name: "cssPre",
         default: "sass",
         prefix: feature,
-        choices: ["None", "sass", "less", "stylus"].map(name => {
+        choices: ["None", "sass", "less"].map(name => {
             const value = name.toLowerCase();
             return {
                 name,
