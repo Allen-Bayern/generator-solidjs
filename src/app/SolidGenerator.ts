@@ -8,7 +8,8 @@ export const SolidGenerator = class extends Generator {
         // 应用名称作为可选argument传入
         this.argument("appname", {
             type: String,
-            optional: true
+            optional: true,
+            description: "Set the name of the project."
         });
     }
 
