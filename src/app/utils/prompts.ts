@@ -25,7 +25,7 @@ export interface UsedAnswers {
 // 语言&&问题列表
 const { languages, questions } = QuestionTranslation;
 
-export const getQuestions = (name?: string) :Question<UsedAnswers>[] => ([
+export const getQuestions = (name?: string): Question<UsedAnswers>[] => ([
     // 问题: 使用中文还是英文
     {
         type: "list",
