@@ -19,6 +19,7 @@ export const SolidGenerator = class extends Generator {
         /**
          * developing...
          */
+        console.log('A Solid.js generator using yeoman.');
     }
 
     async prompting() {
