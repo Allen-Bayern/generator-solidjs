@@ -1,5 +1,6 @@
 import typescript from "rollup-plugin-typescript2";
 import terser from "@rollup/plugin-terser";
+import copy from "rollup-plugin-copy";
 
 export default {
     input: {
@@ -14,5 +15,7 @@ export default {
         terser({
             maxWorkers: 2,
         }),
+        // Doc: https://github.com/vladshcherbin/rollup-plugin-copy#readme
+        copy(),
     ],
 };
