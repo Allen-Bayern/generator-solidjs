@@ -39,6 +39,12 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
     configuring() {
         // 合并选项
         Object.assign(this.options, this.__replies);
+
+        // 不使用当前文件夹的处理
+        if (!this.options.isCurrentFolder && this.options.projectName) {
+            const { projectName } = this.options;
+            this.destinationRoot(this.destinationPath(projectName));
+        }
     }
 
     writing() {}
