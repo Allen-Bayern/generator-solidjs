@@ -2,11 +2,13 @@
     "languages": [
         {
             "name": "English",
-            "value": "en"
+            "value": "en",
+            "iso": "en"
         },
         {
             "name": "中文",
-            "value": "zhCn"
+            "value": "zhCn",
+            "iso": "en-hans"
         }
     ],
     "questions": [

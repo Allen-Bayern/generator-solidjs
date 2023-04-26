@@ -4,7 +4,10 @@ import chalk from "chalk";
 
 import { useQuestions } from "./utils/prompts";
 import { useEndTranslations } from "./utils/config/EndTranslation";
+import Translations from "./utils/config/question-translation.json";
 import { UsedAnswers, UsedOptions } from "./utils/config/UsedTypes";
+
+const { languages } = Translations;
 
 export const SolidGenerator = class extends Generator<UsedOptions> {
     private __replies: UsedAnswers | null = null;
@@ -47,7 +50,21 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         }
     }
 
-    writing() {}
+    writing() {
+        const projectRoot = this.sourceRoot();
+
+        // writing html
+        const { language } = this.options;
+        const mapLanguages = languages.reduce((prev, cur) => {
+            const { value, iso } = cur;
+            prev[value] = iso;
+            return prev;
+        }, {} as Record<string, string>);
+
+        this.fs.copyTpl(this.templatePath("index.htm"), `${projectRoot}/public/index.htm`, {
+            lang: mapLanguages[language ?? "en"],
+        });
+    }
 
     /**
      * @description install packages

@@ -24,7 +24,7 @@ export const useQuestions = (name = ""): Question<UsedAnswers>[] => [
     {
         type: "list",
         name: "language",
-        choices: [...languages],
+        choices: languages.map(({ name, value }) => ({ name, value })),
         default: "en",
         prefix: language,
         message: "Choose your language:",
@@ -56,13 +56,10 @@ export const useQuestions = (name = ""): Question<UsedAnswers>[] => [
         name: "cssPre",
         default: "sass",
         prefix: feature,
-        choices: ["None", "sass", "less"].map(name => {
-            const value = name.toLowerCase();
-            return {
-                name,
-                value,
-            };
-        }),
+        choices: ["None", "sass", "less"].map(name => ({
+            name,
+            value: name.toLowerCase(),
+        })),
         message({ language }): string {
             return questions[2][language as keyof (typeof questions)[2]] ?? questions[2].en;
         },
