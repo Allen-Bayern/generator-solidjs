@@ -12,6 +12,8 @@ export interface UsedAnswers {
     cssPre: string;
     // Eslint
     eslintUse: boolean;
+    // PM
+    packageMamager: string;
 }
 
 export interface UsedOptions extends GeneratorOptions, Partial<UsedAnswers> {

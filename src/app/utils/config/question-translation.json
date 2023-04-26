@@ -25,6 +25,10 @@
         {
             "en": "Use Eslint?",
             "zhCn": "是否使用Eslint?"
+        },
+        {
+            "en": "Which package manager do you prefer?",
+            "zhCn": "您平常使用哪种包管理器?"
         }
     ]
 }

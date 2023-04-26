@@ -70,11 +70,25 @@ export const useQuestions = (name = ''): Question<UsedAnswers>[] => ([
     // Eslint
     {
         type: "confirm",
-        name: "Eslint",
+        name: "eslintUse",
         default: true,
         prefix: feature,
         message({ language }): string {
             return questions[3][language as keyof typeof questions[3]] ?? questions[3].en;
         }
+    },
+    // PM
+    {
+        type: "list",
+        name: "packageMamager",
+        default: "pnpm",
+        prefix: feature,
+        message({ language }): string {
+            return questions[4][language as keyof typeof questions[4]] ?? questions[4].en;
+        },
+        choices: ["pnpm", "npm", "yarn"].map(name => ({
+            name,
+            value: name.toLowerCase(),
+        })),
     }
 ]);
