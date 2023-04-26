@@ -18,6 +18,4 @@ export interface UsedAnswers {
     isCurrentFolder: boolean;
 }
 
-export interface UsedOptions extends GeneratorOptions, Partial<UsedAnswers> {
-
-}
+export interface UsedOptions extends GeneratorOptions, Partial<UsedAnswers> {}

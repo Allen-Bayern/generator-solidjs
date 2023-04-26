@@ -1,6 +1,6 @@
-import { exit } from 'process';
+import { exit } from "process";
 import Generator from "yeoman-generator";
-import chalk from 'chalk';
+import chalk from "chalk";
 
 import { useQuestions } from "./utils/prompts";
 import { useEndTranslations } from "./utils/config/EndTranslation";
@@ -16,7 +16,7 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         this.argument("appname", {
             type: String,
             optional: true,
-            description: "Set the name of the project."
+            description: "Set the name of the project.",
         });
     }
 
@@ -24,7 +24,7 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         /**
          * developing...
          */
-        console.log('A Solid.js generator using yeoman.');
+        console.log("A Solid.js generator using yeoman.");
     }
 
     async prompting() {
@@ -41,17 +41,24 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         Object.assign(this.options, this.__replies);
     }
 
-    writing() {
+    writing() {}
 
-    }
-
+    /**
+     * @description install packages
+     */
     install() {
-
+        const { packageMamager } = this.options;
+        if (!packageMamager || ["npm", "pnpm"].includes(packageMamager)) {
+            const command = packageMamager || "pnpm";
+            this.spawnCommand(command, ["install"]);
+        } else if (packageMamager === "yarn") {
+            this.spawnCommand(packageMamager, [""]);
+        }
     }
 
     end() {
         const { firstPart, tips, lastPart } = useEndTranslations(this.options);
-        
+
         firstPart.forEach(tip => {
             console.log(chalk.whiteBright(tip));
         });
@@ -62,6 +69,6 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
 
         lastPart.forEach(tip => {
             console.log(chalk.whiteBright(tip));
-        })
+        });
     }
 };

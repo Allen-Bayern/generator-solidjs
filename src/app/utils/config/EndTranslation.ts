@@ -2,16 +2,14 @@ import { UsedOptions } from "./UsedTypes";
 
 /**
  * 生成一组结束语
- * @param options 
- * @returns 
+ * @param options
+ * @returns
  */
-export const useEndTranslations 
-    = <T extends UsedOptions = UsedOptions> (options: T) => 
-{
-    const { projectName = 'solid-project', language = 'en' } = options;
+export const useEndTranslations = <T extends UsedOptions = UsedOptions>(options: T) => {
+    const { projectName = "solid-project", language = "en" } = options;
     const firstPart = [] as string[];
 
-    function line1 (): string {
+    function line1(): string {
         switch (language.toLowerCase()) {
             case "zhcn": {
                 return `恭喜！项目${projectName}已创建完毕！`;
@@ -23,7 +21,7 @@ export const useEndTranslations
     }
     firstPart.push(line1());
 
-    function line2 (): string {
+    function line2(): string {
         switch (language.toLowerCase()) {
             case "zhcn": {
                 return "接下来, 您可以这样操作: ";
@@ -54,6 +52,6 @@ export const useEndTranslations
     return {
         firstPart,
         tips,
-        lastPart
+        lastPart,
     };
-}
+};

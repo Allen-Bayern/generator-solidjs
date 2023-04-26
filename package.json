@@ -13,7 +13,7 @@
   ],
   "scripts": {
     "build": "rollup -c",
-    "formatter": "yarn eslint --fix"
+    "formatter": "npx eslint ./src --fix"
   },
   "dependencies": {
     "chalk": "^5.2.0",
