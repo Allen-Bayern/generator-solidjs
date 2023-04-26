@@ -90,5 +90,15 @@ export const useQuestions = (name = ''): Question<UsedAnswers>[] => ([
             name,
             value: name.toLowerCase(),
         })),
+    },
+    // 是否使用当前文件夹?
+    {
+        type: "confirm",
+        name: "isCurrentFolder",
+        default: true,
+        prefix: feature,
+        message({ language }): string {
+            return questions[5][language as keyof typeof questions[5]] ?? questions[5].en;
+        },
     }
 ]);

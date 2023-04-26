@@ -14,6 +14,8 @@ export interface UsedAnswers {
     eslintUse: boolean;
     // PM
     packageMamager: string;
+    // 是否使用当前文件夹?
+    isCurrentFolder: boolean;
 }
 
 export interface UsedOptions extends GeneratorOptions, Partial<UsedAnswers> {

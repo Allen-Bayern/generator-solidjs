@@ -29,6 +29,10 @@
         {
             "en": "Which package manager do you prefer?",
             "zhCn": "您平常使用哪种包管理器?"
+        },
+        {
+            "en": "Do you want to place the files at current folder?",
+            "zhCn": "是否使用当前文件夹创建项目?"
         }
     ]
 }
