@@ -12,7 +12,8 @@
     "yeoman-generator"
   ],
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "formatter": "yarn eslint --fix"
   },
   "dependencies": {
     "chalk": "^5.2.0",
