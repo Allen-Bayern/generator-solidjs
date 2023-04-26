@@ -1,11 +1,16 @@
-import { UsedAnswers } from "./UsedTypes";
+import { UsedOptions } from "./UsedTypes";
 
 interface DepVersions {
     dependencies: Record<string, string>;
     devDependencies?: Record<string, string>;
 }
 
-export const useDependencies = (options: Partial<UsedAnswers>): DepVersions => {
+/**
+ * 根据条件生成依赖
+ * @param options 所有存储在yo中的选项
+ * @returns 依赖列表
+ */
+export const useDependencies = (options: Partial<UsedOptions>): DepVersions => {
     const { isTsNeeded, cssPre } = options;
 
     /**
