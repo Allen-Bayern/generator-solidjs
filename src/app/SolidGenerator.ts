@@ -5,7 +5,7 @@ import chalk from "chalk";
 import { useQuestions } from "./utils/prompts";
 import { useEndTranslations } from "./utils/config/EndTranslation";
 import Translations from "./utils/config/question-translation.json";
-import { useDependencies } from "./utils/config/DepMan";
+import { usePackageJson } from "./utils/config/GeneratePackageJson";
 import type { UsedAnswers, UsedOptions } from "./utils/config/UsedTypes";
 
 const { languages } = Translations;
@@ -67,20 +67,7 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         });
 
         // package.json
-        const { projectName } = this.options;
-        const packageJsonContent = {
-            name: projectName,
-            version: "0.0.1",
-            description: "Really basic Solid webpack build with TS",
-            license: "ISC",
-            scripts: {
-                start: "webpack serve --open --node-env development",
-                build: "webpack --node-env production",
-            },
-            ...useDependencies(this.options),
-        };
-
-        this.fs.writeJSON(this.destinationPath("package.json"), packageJsonContent, void 0, 4);
+        this.fs.writeJSON(this.destinationPath("package.json"), usePackageJson(this.options), void 0, 4);
 
         // babel.config
         this.fs.copy(this.templatePath("babel.config.cjs"), this.destinationPath("babel.config.cjs"));

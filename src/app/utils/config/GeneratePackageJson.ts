@@ -1,17 +1,27 @@
 import { UsedOptions } from "./UsedTypes";
 
-interface DepVersions {
+interface PackageJsonContent {
+    [key: string]: unknown;
+    name: string;
+    version: string;
+    description?: string;
+    license?: string;
+    scripts: Record<string, string>;
     dependencies: Record<string, string>;
     devDependencies?: Record<string, string>;
 }
 
-/**
- * 根据条件生成依赖
- * @param options 所有存储在yo中的选项
- * @returns 依赖列表
- */
-export const useDependencies = (options: Partial<UsedOptions>): DepVersions => {
-    const { isTsNeeded, cssPre } = options;
+export function usePackageJson({ isTsNeeded, cssPre, projectName, eslintUse }: UsedOptions): PackageJsonContent {
+    const basic = {
+        name: projectName as string,
+        version: "0.0.1",
+        description: "Really basic Solid webpack build with TS",
+        license: "ISC",
+        scripts: {
+            start: "webpack serve --open --node-env development",
+            build: "webpack --node-env production",
+        },
+    };
 
     /**
      * basic dependecies
@@ -76,8 +86,18 @@ export const useDependencies = (options: Partial<UsedOptions>): DepVersions => {
         }
     }
 
+    if (eslintUse) {
+        Object.assign(devDependencies, {
+            eslint: "^8.0.0",
+            "eslint-config-prettier": "^8.0.0",
+            "eslint-plugin-prettier": "^4.1.0",
+            prettier: "^2.5.0",
+        });
+    }
+
     return {
+        ...basic,
         dependencies,
         devDependencies,
-    };
-};
+    } as PackageJsonContent;
+}
