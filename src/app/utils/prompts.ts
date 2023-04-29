@@ -29,7 +29,7 @@ export const useQuestions = (name = ""): Question<UsedAnswers>[] => [
         prefix: language,
         message: "Choose your language:",
     },
-    // 问题: 应用名称
+    // 问题: 项目名称
     {
         type: "input",
         when(): boolean {

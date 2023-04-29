@@ -3,23 +3,23 @@ import { UsedOptions } from "./UsedTypes";
 interface PackageJsonContent {
     [key: string]: unknown;
     name: string;
-    version: string;
+    version?: string;
     description?: string;
     license?: string;
-    scripts: Record<string, string>;
-    dependencies: Record<string, string>;
+    scripts?: Record<string, string>;
+    dependencies?: Record<string, string>;
     devDependencies?: Record<string, string>;
 }
 
 export function usePackageJson({ isTsNeeded, cssPre, projectName, eslintUse }: UsedOptions): PackageJsonContent {
-    const basic = {
-        name: projectName as string,
+    const basic: PackageJsonContent = {
+        name: projectName ?? "solid-project",
         version: "0.0.1",
         description: "Really basic Solid webpack build with TS",
         license: "ISC",
         scripts: {
             start: "webpack serve --open --node-env development",
-            build: "webpack --node-env production",
+            build: "cross-env NODE_ENV=production webpack",
         },
     };
 
@@ -42,6 +42,7 @@ export function usePackageJson({ isTsNeeded, cssPre, projectName, eslintUse }: U
         autoprefixer: "^10.4.14",
         "babel-loader": "^9.1.2",
         "babel-preset-solid": "^1.0.0",
+        "cross-env": "^7.0.3",
         "css-loader": "^6.7.3",
         "fork-ts-checker-webpack-plugin": "^8.0.0",
         "html-webpack-plugin": "^5.5.0",
@@ -99,5 +100,5 @@ export function usePackageJson({ isTsNeeded, cssPre, projectName, eslintUse }: U
         ...basic,
         dependencies,
         devDependencies,
-    } as PackageJsonContent;
+    };
 }
