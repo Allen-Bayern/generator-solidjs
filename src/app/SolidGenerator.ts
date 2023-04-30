@@ -51,6 +51,9 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         }
     }
 
+    /**
+     * @description writing method
+     */
     writing() {
         this.sourceRoot();
 
@@ -136,16 +139,16 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         // eslint & stylelint
         const { eslintUse, stylelintUse } = this.options;
 
+        if (eslintUse || stylelintUse) {
+            this.fs.copy(this.templatePath("tools/__prettierrc.yaml"), this.destinationPath("prettierrc.yml"));
+        }
+
         if (eslintUse) {
             this.fs.copy(this.templatePath("tools/__eslintrc.cjs"), this.destinationPath(".eslintrc.cjs"));
-            this.fs.copy(this.templatePath("tools/__prettierrc.yaml"), this.destinationPath(".prettierrc.yml"));
         }
 
         if (stylelintUse) {
             this.fs.copy(this.templatePath("tools/__stylelintrc"), this.destinationPath(".stylelintrc.cjs"));
-            if (!eslintUse) {
-                this.fs.copy(this.templatePath("tools/__prettierrc.yaml"), this.destinationPath("prettierrc.yml"));
-            }
         }
 
         // .gitignore
