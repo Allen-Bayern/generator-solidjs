@@ -12,6 +12,8 @@ export interface UsedAnswers {
     cssPre: string;
     // Eslint
     eslintUse: boolean;
+    // stylelint
+    stylelintUse: boolean;
     // PM
     packageMamager: string;
     // 是否使用当前文件夹?

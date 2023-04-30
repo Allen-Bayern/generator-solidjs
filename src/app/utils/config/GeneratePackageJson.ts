@@ -11,7 +11,13 @@ interface PackageJsonContent {
     devDependencies?: Record<string, string>;
 }
 
-export function usePackageJson({ isTsNeeded, cssPre, projectName, eslintUse }: UsedOptions): PackageJsonContent {
+export function usePackageJson({
+    isTsNeeded,
+    cssPre,
+    projectName,
+    eslintUse,
+    stylelintUse,
+}: UsedOptions): PackageJsonContent {
     const basic: PackageJsonContent = {
         name: projectName ?? "solid-project",
         version: "0.0.1",
@@ -27,6 +33,7 @@ export function usePackageJson({ isTsNeeded, cssPre, projectName, eslintUse }: U
      * basic dependecies
      */
     const dependencies: Record<string, string> = {
+        "core-js": "^3.0.0",
         "solid-js": "^1.0.0",
         "@solidjs/router": "^0.7.0",
     };
@@ -51,10 +58,6 @@ export function usePackageJson({ isTsNeeded, cssPre, projectName, eslintUse }: U
         "postcss-loader": "^7.2.4",
         "postcss-preset-env": "^8.3.0",
         "style-loader": "^3.3.2",
-        stylelint: "^15.6.0",
-        "stylelint-config-standard": "^33.0.0",
-        "stylelint-config-standard-scss": "^9.0.0",
-        "stylelint-prettier": "^3.0.0",
         "uglify-js": "^3.17.4",
         webpack: "^5.78.0",
         "webpack-chain": "^6.5.1",
@@ -97,6 +100,15 @@ export function usePackageJson({ isTsNeeded, cssPre, projectName, eslintUse }: U
             "eslint-config-prettier": "^8.0.0",
             "eslint-plugin-prettier": "^4.1.0",
             prettier: "^2.5.0",
+        });
+    }
+
+    if (stylelintUse) {
+        Object.assign(devDependencies, {
+            stylelint: "^15.6.0",
+            "stylelint-config-standard": "^33.0.0",
+            "stylelint-config-standard-scss": "^9.0.0",
+            "stylelint-prettier": "^3.0.0",
         });
     }
 

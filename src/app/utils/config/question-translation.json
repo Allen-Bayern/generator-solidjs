@@ -25,8 +25,12 @@
             "zhCn": "使用以下哪种CSS预处理器?"
         },
         {
-            "en": "Use Eslint?",
+            "en": "Use eslint?",
             "zhCn": "是否使用Eslint?"
+        },
+        {
+            "en": "Use stylelint?",
+            "zhCn": "是否使用stylelint?"
         },
         {
             "en": "Which package manager do you prefer?",

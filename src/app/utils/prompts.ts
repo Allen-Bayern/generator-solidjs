@@ -74,6 +74,16 @@ export const useQuestions = (name = ""): Question<UsedAnswers>[] => [
             return questions[3][language as keyof (typeof questions)[3]] ?? questions[3].en;
         },
     },
+    // stylelint
+    {
+        type: "confirm",
+        name: "stylelintUse",
+        default: true,
+        prefix: feature,
+        message({ language }): string {
+            return questions[4][language as keyof (typeof questions)[4]] ?? questions[4].en;
+        },
+    },
     // PM
     {
         type: "list",
@@ -81,7 +91,7 @@ export const useQuestions = (name = ""): Question<UsedAnswers>[] => [
         default: "pnpm",
         prefix: feature,
         message({ language }): string {
-            return questions[4][language as keyof (typeof questions)[4]] ?? questions[4].en;
+            return questions[5][language as keyof (typeof questions)[5]] ?? questions[5].en;
         },
         choices: ["pnpm", "npm", "yarn"].map(name => ({
             name,
@@ -95,7 +105,7 @@ export const useQuestions = (name = ""): Question<UsedAnswers>[] => [
         default: true,
         prefix: feature,
         message({ language }): string {
-            return questions[5][language as keyof (typeof questions)[5]] ?? questions[5].en;
+            return questions[6][language as keyof (typeof questions)[6]] ?? questions[6].en;
         },
     },
 ];
