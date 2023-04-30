@@ -54,6 +54,11 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
     writing() {
         this.sourceRoot();
 
+        const { isTsNeeded } = this.options;
+
+        // generate extensions
+        const extName = `.${isTsNeeded ? "t" : "j"}sx`;
+
         // writing html
         const { language } = this.options;
         const mapLanguages = languages.reduce((prev, cur) => {
@@ -70,11 +75,56 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         this.fs.writeJSON(this.destinationPath("package.json"), usePackageJson(this.options), void 0, 4);
 
         // babel.config
-        const { isTsNeeded } = this.options;
         this.fs.copy(
             this.templatePath(isTsNeeded ? "babel/babel.with-ts.js" : "babel/babel/basic.js"),
             this.destinationPath("babel.config.cjs")
         );
+
+        // write route
+        this.fs.copy(this.templatePath("routes/index.jsx"), this.destinationPath(`src/routes/index${extName}`));
+
+        // write views
+        const { cssPre = "none" } = this.options;
+        const none = ["views/HomePage/index.jsx", "views/HomePage/style.css"];
+        const sass = ["views/HomePage/WithSass.jsx", "views/HomePage/_style.scss"];
+        const less = ["views/HomePage/WithLess.jsx", "views/HomePage/style.less"];
+
+        const pathDict = {
+            none,
+            css: [...none],
+            sass,
+            scss: [...sass],
+            less,
+        };
+
+        pathDict[cssPre.toLowerCase() as keyof typeof pathDict].forEach(element => {
+            const destPath = `src/${element
+                .split("/")
+                .map((item, index) => {
+                    if (!index) return item;
+                    else {
+                        const templateExt = item.split(".")[1];
+                        if (templateExt.toLowerCase() === "jsx") {
+                            return `index${extName}`;
+                        }
+                        return item;
+                    }
+                })
+                .join("/")}`;
+            this.fs.copy(this.templatePath(element), this.destinationPath(destPath));
+        });
+
+        // write "about"
+        this.fs.copy(
+            this.templatePath("views/AboutPage/index.jsx"),
+            this.destinationPath(`src/views/AboutPage/index${extName}`)
+        );
+
+        // write App
+        this.fs.copy(this.templatePath("App.jsx"), this.destinationPath(`src/App${extName}`));
+
+        // write index
+        this.fs.copy(this.templatePath("index.jsx"), this.destinationPath(`src/index${extName}`));
     }
 
     /**
