@@ -76,7 +76,7 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
 
         // babel.config
         this.fs.copy(
-            this.templatePath(isTsNeeded ? "babel/babel.with-ts.js" : "babel/babel/basic.js"),
+            this.templatePath(isTsNeeded ? "babel/babel.with-ts.js" : "babel/babel.basic.js"),
             this.destinationPath("babel.config.cjs")
         );
 
@@ -97,6 +97,7 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
             less,
         };
 
+        // write "homeview"
         pathDict[cssPre.toLowerCase() as keyof typeof pathDict].forEach(element => {
             const destPath = `src/${element
                 .split("/")
@@ -137,7 +138,7 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
 
         if (eslintUse) {
             this.fs.copy(this.templatePath("tools/__eslintrc.cjs"), this.destinationPath(".eslintrc.cjs"));
-            this.fs.copy(this.templatePath("tools/__prettierrc.yaml"), this.destinationPath("prettierrc.yml"));
+            this.fs.copy(this.templatePath("tools/__prettierrc.yaml"), this.destinationPath(".prettierrc.yml"));
         }
 
         if (stylelintUse) {
@@ -146,6 +147,9 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
                 this.fs.copy(this.templatePath("tools/__prettierrc.yaml"), this.destinationPath("prettierrc.yml"));
             }
         }
+
+        // .gitignore
+        this.fs.copy(this.templatePath("tools/__gitignore"), this.destinationPath(".gitignore"));
     }
 
     /**
