@@ -110,6 +110,11 @@ export function usePackageJson({
             "stylelint-config-standard-scss": "^9.0.0",
             "stylelint-prettier": "^3.0.0",
         });
+        if (!eslintUse) {
+            Object.assign(devDependencies, {
+                prettier: "^2.5.0",
+            });
+        }
     }
 
     return {

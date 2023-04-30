@@ -125,6 +125,27 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
 
         // write index
         this.fs.copy(this.templatePath("index.jsx"), this.destinationPath(`src/index${extName}`));
+
+        // write editorconfig
+        this.fs.copy(this.templatePath("tools/__editorconfig"), this.destinationPath(".editorconfig"));
+
+        // postcss
+        this.fs.copy(this.templatePath("tools/__postcssrc.js"), this.destinationPath("postcss.config.cjs"));
+
+        // eslint & stylelint
+        const { eslintUse, stylelintUse } = this.options;
+
+        if (eslintUse) {
+            this.fs.copy(this.templatePath("tools/__eslintrc.cjs"), this.destinationPath(".eslintrc.cjs"));
+            this.fs.copy(this.templatePath("tools/__prettierrc.yaml"), this.destinationPath("prettierrc.yml"));
+        }
+
+        if (stylelintUse) {
+            this.fs.copy(this.templatePath("tools/__stylelintrc"), this.destinationPath(".stylelintrc.cjs"));
+            if (!eslintUse) {
+                this.fs.copy(this.templatePath("tools/__prettierrc.yaml"), this.destinationPath("prettierrc.yml"));
+            }
+        }
     }
 
     /**

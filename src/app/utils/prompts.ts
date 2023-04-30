@@ -32,6 +32,7 @@ export const useQuestions = (name = ""): Question<UsedAnswers>[] => [
     // 问题: 项目名称
     {
         type: "input",
+        name: "projectName",
         when(): boolean {
             return !!name;
         },
