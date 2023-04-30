@@ -70,7 +70,11 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         this.fs.writeJSON(this.destinationPath("package.json"), usePackageJson(this.options), void 0, 4);
 
         // babel.config
-        this.fs.copy(this.templatePath("babel.config.cjs"), this.destinationPath("babel.config.cjs"));
+        const { isTsNeeded } = this.options;
+        this.fs.copy(
+            this.templatePath(isTsNeeded ? "babel/babel.with-ts.js" : "babel/babel/basic.js"),
+            this.destinationPath("babel.config.cjs")
+        );
     }
 
     /**
