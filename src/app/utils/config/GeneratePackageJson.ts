@@ -24,7 +24,7 @@ export function usePackageJson({
         description: "Really basic Solid webpack build with TS",
         license: "ISC",
         scripts: {
-            start: "webpack serve --open --node-env development",
+            start: "cross-env NODE_ENV=development webpack serve --open",
             build: "cross-env NODE_ENV=production webpack",
         },
     };
@@ -49,8 +49,8 @@ export function usePackageJson({
         autoprefixer: "^10.4.14",
         "babel-loader": "^9.1.2",
         "babel-preset-solid": "^1.0.0",
-        "cross-env": "^7.0.3",
-        "css-loader": "^6.7.3",
+        "cross-env": "^7.0.0",
+        "css-loader": "^6.7.0",
         "fork-ts-checker-webpack-plugin": "^8.0.0",
         "html-webpack-plugin": "^5.5.0",
         "mini-css-extract-plugin": "^2.7.5",
@@ -60,9 +60,9 @@ export function usePackageJson({
         "style-loader": "^3.3.2",
         "uglify-js": "^3.17.4",
         webpack: "^5.78.0",
-        "webpack-chain": "^6.5.1",
-        "webpack-cli": "^5.0.1",
-        "webpack-dev-server": "^4.13.2",
+        "webpack-chain": "^6.5.0",
+        "webpack-cli": "^5.0.0",
+        "webpack-dev-server": "^4.13.0",
     };
 
     if (isTsNeeded) {
