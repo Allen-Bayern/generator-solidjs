@@ -64,7 +64,7 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
         const extName = `.${isTsNeeded ? "t" : "j"}sx`;
 
         // writing html
-        const { language } = this.options;
+        const { language, projectName = "solid-project" } = this.options;
         const mapLanguages = languages.reduce((prev, cur) => {
             const { value, iso } = cur;
             prev[value] = iso;
@@ -73,6 +73,7 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
 
         this.fs.copyTpl(this.templatePath("index.htm"), this.destinationPath("public/index.htm"), {
             lang: mapLanguages[language ?? "en"],
+            projectName,
         });
 
         // package.json

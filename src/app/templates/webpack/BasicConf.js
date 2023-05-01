@@ -143,7 +143,6 @@ function useBasicConfig(nodeEnv) {
             {
                 template: path.resolve(__dirname, '../public/index.htm'),
                 inject: 'body',
-                title: 'solid-ts-webpack-starter',
             },
         ])
         .end()
