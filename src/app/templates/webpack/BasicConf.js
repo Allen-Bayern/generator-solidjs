@@ -1,45 +1,247 @@
-const Config = require("webpack-chain");
-const { resolve } = require("path");
+const Config = require('webpack-chain');
+const { resolve } = require('path');
+
+// Plugins
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const TerserPlugin = require('terser-webpack-plugin');
+const { DefinePlugin } = require('webpack');
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+
+// configure
+const configure = require('./config.json');
+
+// Use MiniCssExtractPlugin.loader
+const { loader: miniLoader } = MiniCssExtractPlugin;
 
 /**
  * generate a basic config
- * @param {object} env used environment variables
+ * @param {string} nodeEnv process.env.NODE_ENV
  * @returns Webpack Chained Config
  */
-function useBasicConfig() {
-    return new Config().merge({
+function useBasicConfig(nodeEnv) {
+    // node-env
+    const isDev = nodeEnv.toLowerCase() === 'development';
+    const isProduction = nodeEnv.toLowerCase() === 'production';
+
+    const { cssPreprocessors } = configure;
+
+    const css = {
+        test: /\.css$/i,
+        include: resolve(__dirname, '../src'),
+        exclude: /node_modules/,
+        use: {
+            styleLoader: {
+                loader: isDev ? isDev ? 'style-loader' : miniLoader,
+            },
+            cssLoader: {
+                loader: 'css-loader',
+            },
+            postcssLoader: {
+                loader: 'postcss-loader',
+            },
+        },
+    };
+
+    const cssLoaders = {
+        css,
+    };
+
+    const styleResource = {
+        use: {
+            styleResourceLoader: {
+                loader: 'style-resources-loader',
+                options: {
+                    patterns: [
+                        // use css
+                        path.resolve(__dirname, '../src/assets/global.css'),
+                    ],
+                },
+            }
+        },
+    };
+
+    if (cssPreprocessors.includes('sass')) {
+        const sass = Object.assign({}, { ...css }, { test: /\.s[ac]ss$/i });
+        sass.use.sassLoader = {
+            loader: 'sass-loader'
+        };
+        styleResource.styleResourceLoader.options.patterns = [
+            // use scss
+            path.resolve(__dirname, '../src/assets/_global.scss'),
+        ];
+        Object.assign(cssLoaders, { sass });
+    } else if (cssPreprocessors.includes('less')) {
+        const less = Object.assign({}, { ...css }, { test: /\.less$/i });
+        less.use.lessLoader = {
+            loader: 'less-loader'
+        };
+        styleResource.styleResourceLoader.options.patterns = [
+            // use less
+            path.resolve(__dirname, '../src/assets/global.less'),
+        ];
+        Object.assign(cssLoaders, { less });
+    }
+
+    Object.assign(cssLoaders, { styleResource });
+
+    const extensions = ['.js', '.jsx', '.json', '.cjs', '.mjs', '.ts', '.tsx'];
+
+    const mergedConf = {
         entry: {
-            index: [resolve(__dirname, "src/index.tsx")],
+            index: [resolve(__dirname, '../src/index.tsx')],
         },
         output: {
-            filename: "[name].[contenthash].bundle.js",
-            path: resolve(__dirname, "dist"),
+            filename: '[name].[contenthash].bundle.js',
+            path: resolve(__dirname, '../dist'),
         },
         resolve: {
             alias: {
-                "@": resolve(__dirname, "src"),
+                '@': resolve(__dirname, '../src'),
             },
-            extensions: [".js", ".jsx", ".json", ".mjs", ".ts", ".tsx"],
+            extensions,
         },
         module: {
             rule: {
                 jsx: {
-                    test: /\.[jt]sx$/i,
-                    include: resolve(__dirname, "src"),
+                    test: /\.[jt]sx?$/i,
+                    include: resolve(__dirname, '../src'),
                     exclude: /node_modules/,
                     use: {
                         babel: {
-                            loader: "babel-loader",
+                            loader: 'babel-loader',
                             options: {
                                 babelrc: false,
-                                configFile: resolve(__dirname, "babel.config.cjs"),
+                                configFile: resolve(__dirname, '../babel.config.cjs'),
                             },
                         },
                     },
                 },
+                ...cssLoaders,
+                pics: {
+                    test: /\.(png|svg|jpe?g|gif)$/i,
+                    type: 'asset/resource',
+                    parser: {
+                        dataUrlCondition: {
+                            maxSize: 10 * 1024,
+                        },
+                    }
+                },
+                fonts: {
+                    test: /\.(woff2?|eot|[ot]tf)$/i,
+                    type: 'asset/resource'
+                }
             },
         },
-    });
+    };
+
+    return new Config()
+        .merge(mergedConf)
+        // set plugins
+        .plugin('HtmlWebpackPlugin')
+        .use(HtmlWebpackPlugin, [
+            {
+                template: path.resolve(__dirname, '../public/index.htm'),
+                inject: 'body',
+                title: 'solid-ts-webpack-starter',
+            },
+        ])
+        .end()
+        .plugin('DefinePlugin')
+        .use(DefinePlugin, [
+            {
+                'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+            },
+        ])
+        .end()
+        // split chunks
+        .optimization.splitChunks({
+            chunks: 'all',
+            minSize: 15000,
+        })
+        .end()
+        // set in develoment mode
+        .when(isDev, config => {
+            config
+                .devtool('source-map')
+                .mode('development')
+                // set devServer
+                .devServer.compress(true)
+                .port(8333)
+                .hot(true)
+                .end();
+            
+            const { isTsNeeded } = configure;
+            if (isTsNeeded) {
+                // check ts in dev environment
+                config.plugin('ForkTsCheckerWebpackPlugin')
+                    .use(require('fork-ts-checker-webpack-plugin'), [
+                        {
+                            devServer: true,
+                        },
+                    ])
+                    .end();
+            }
+            
+            const { eslintUse } = configure;
+            if (eslintUse) {
+                config.plugin('ESLintPlugin')
+                    .use(require('eslint-webpack-plugin'), [
+                        {
+                            extensions,
+                            fix: true,
+                            threads: true,
+                        },
+                    ])
+                    .end();
+            }
+        })
+        // set in production mode
+        .when(isProduction, config => {
+            config
+                .devtool('eval')
+                .mode('production')
+                .optimization.minimize(true)
+                .minimizer('terser')
+                .use(TerserPlugin, [
+                    {
+                        extractComments: true,
+                        minify: TerserPlugin.uglifyJsMinify,
+                        terserOptions: {
+                            ecma: 5,
+                            compress: {
+                                drop_console: true,
+                                drop_debugger: true,
+                            },
+                        },
+                    },
+                ])
+                .end()
+                .end()
+                // html webpack plugin
+                .plugin('HtmlWebpackPlugin')
+                .tap(args => {
+                    const [htmlPluginConf] = args;
+                    const appendToConf = {
+                        ...htmlPluginConf,
+                        minify: true,
+                    };
+
+                    return [appendToConf];
+                })
+                .end()
+                // mini css extract plugin
+                .plugin('MiniCssExtractPlugin')
+                .use(MiniCssExtractPlugin, [
+                    {
+                        filename: '[name]-[contenthash].css',
+                    },
+                ])
+                .end()
+                .plugin('cleanWebpackPlugin')
+                .use(CleanWebpackPlugin)
+                .end();
+        });
 }
 
 module.exports = {

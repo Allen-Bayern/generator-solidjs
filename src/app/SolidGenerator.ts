@@ -6,6 +6,7 @@ import { useQuestions } from "./utils/prompts";
 import { useEndTranslations } from "./utils/config/EndTranslation";
 import Translations from "./utils/config/question-translation.json";
 import { usePackageJson } from "./utils/GeneratePackageJson";
+import { useWebpackEnv } from "./utils/GenerateWebpackEnvs";
 import type { UsedAnswers, UsedOptions } from "./utils/config/UsedTypes";
 
 const { languages } = Translations;
@@ -118,6 +119,15 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
             this.fs.copy(this.templatePath(element), this.destinationPath(destPath));
         });
 
+        // write css assets
+        if (/s[ac]ss/i.test(cssPre)) {
+            this.fs.copy(this.templatePath("assets/_global.scss"), this.destinationPath("assets/_global.scss"));
+        } else if (cssPre === "less") {
+            this.fs.copy(this.templatePath("assets/global.less"), this.destinationPath("assets/global.less"));
+        } else {
+            this.fs.copy(this.templatePath("assets/global.css"), this.destinationPath("assets/global.css"));
+        }
+
         // write "about"
         this.fs.copy(
             this.templatePath("views/AboutPage/index.jsx"),
@@ -153,6 +163,11 @@ export const SolidGenerator = class extends Generator<UsedOptions> {
 
         // .gitignore
         this.fs.copy(this.templatePath("tools/__gitignore"), this.destinationPath(".gitignore"));
+
+        // write webpacks
+        this.fs.writeJSON(this.destinationPath("webpack/config.json"), useWebpackEnv(this.options), void 0, 4);
+        this.fs.copy(this.templatePath("webpack/BasicConf.js"), this.destinationPath("webpack/BasicConf.js"));
+        this.fs.copy(this.templatePath("webpack.config.js"), this.destinationPath("webpack.config.js"));
     }
 
     /**
