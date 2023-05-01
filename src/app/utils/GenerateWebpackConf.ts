@@ -1,4 +1,4 @@
-import { UsedOptions } from "./UsedTypes";
+import { UsedOptions } from "./config/UsedTypes";
 
 export type WebpackConf = Partial<{
     [key: string]: unknown;

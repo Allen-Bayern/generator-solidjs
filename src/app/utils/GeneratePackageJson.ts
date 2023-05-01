@@ -1,4 +1,4 @@
-import { UsedOptions } from "./UsedTypes";
+import { UsedOptions } from "./config/UsedTypes";
 
 interface PackageJsonContent {
     [key: string]: unknown;

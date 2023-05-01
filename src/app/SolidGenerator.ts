@@ -5,7 +5,7 @@ import chalk from "chalk";
 import { useQuestions } from "./utils/prompts";
 import { useEndTranslations } from "./utils/config/EndTranslation";
 import Translations from "./utils/config/question-translation.json";
-import { usePackageJson } from "./utils/config/GeneratePackageJson";
+import { usePackageJson } from "./utils/GeneratePackageJson";
 import type { UsedAnswers, UsedOptions } from "./utils/config/UsedTypes";
 
 const { languages } = Translations;
