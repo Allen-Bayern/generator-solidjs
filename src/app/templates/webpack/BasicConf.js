@@ -71,7 +71,9 @@ function useBasicConfig(nodeEnv) {
             path.resolve(__dirname, '../src/assets/_global.scss'),
         ];
         Object.assign(cssLoaders, { sass });
-    } else if (cssPreprocessors.includes('less')) {
+    }
+    
+    if (cssPreprocessors.includes('less')) {
         const less = Object.assign({}, { ...css }, { test: /\.less$/i });
         less.use.lessLoader = {
             loader: 'less-loader'
