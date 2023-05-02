@@ -1,6 +1,7 @@
 import typescript from "rollup-plugin-typescript2";
 import terser from "@rollup/plugin-terser";
 import copy from "rollup-plugin-copy";
+import json from "@rollup/plugin-json";
 
 export default {
     input: {
@@ -16,6 +17,9 @@ export default {
             maxWorkers: 2,
         }),
         // Doc: https://github.com/vladshcherbin/rollup-plugin-copy#readme
-        copy(),
+        copy({
+            targets: [{ src: "./src/app/templates/**/*", dest: "./generators/app/templates" }],
+        }),
+        json(),
     ],
 };
