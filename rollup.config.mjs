@@ -13,8 +13,11 @@ export default {
         dir: "./generators",
         format: "cjs",
     },
+    external: [
+        "textextensions",
+        "binaryextensions"
+    ],
     plugins: [
-        typescript(),
         terser({
             maxWorkers: 2,
         }),
@@ -27,5 +30,6 @@ export default {
             preferBuiltins: true,
         }),
         commonjs(),
+        typescript(),
     ],
 };

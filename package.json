@@ -13,7 +13,8 @@
     "yeoman-generator"
   ],
   "scripts": {
-    "build": "npx webpack",
+    "build": "webpack",
+    "build-rollup": "rollup -c",
     "formatter": "npx eslint ./src --fix"
   },
   "dependencies": {
