@@ -4,15 +4,10 @@ const config = useBasicConfig(process.env.NODE_ENV ?? "development");
 
 /**
  * If you want to add or modify the webpack config,
- * you can use webpack-chain like the function below.
- * open all the // below, including function and chainWebpack().
- * The documentation: https://github.com/neutrinojs/webpack-chain
+ * you can use webpack-chain and open the comment.
+ * The documentation of webpack chain: https://github.com/neutrinojs/webpack-chain
  */
 
-// function chainWebpack() {
-//     config.
-// }
-
-// chainWebpack();
+// config.
 
 module.exports = config.toConfig();
