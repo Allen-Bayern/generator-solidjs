@@ -20,7 +20,7 @@ export default {
         }),
         // Doc: https://github.com/vladshcherbin/rollup-plugin-copy#readme
         copy({
-            targets: [{ src: "./src/app/templates/**/*", dest: "./generators/app/templates" }],
+            targets: [{ src: "./src/app/templates", dest: "./generators/app" }],
         }),
         json(),
         nodeResolve({

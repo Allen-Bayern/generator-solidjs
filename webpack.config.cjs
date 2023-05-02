@@ -4,6 +4,7 @@ const Config = require("webpack-chain");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 
 const nodeExternals = require("webpack-node-externals");
 
@@ -69,6 +70,9 @@ const config = new Config()
     .end()
     .plugin("ForkTsCheckerWebpackPlugin")
     .use(ForkTsCheckerWebpackPlugin)
+    .end()
+    .plugin("terser")
+    .use(TerserPlugin)
     .end()
     .externals([nodeExternals()])
     .toConfig();
