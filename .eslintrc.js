@@ -13,6 +13,7 @@ module.exports = {
     },
     plugins: ["@typescript-eslint", "prettier"],
     rules: {
+        "@typescript-eslint/no-var-requires": "off",
         indent: [
             "error",
             4,

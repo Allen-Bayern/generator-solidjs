@@ -2,6 +2,8 @@ import typescript from "rollup-plugin-typescript2";
 import terser from "@rollup/plugin-terser";
 import copy from "rollup-plugin-copy";
 import json from "@rollup/plugin-json";
+import { nodeResolve } from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
 
 export default {
     input: {
@@ -21,5 +23,9 @@ export default {
             targets: [{ src: "./src/app/templates/**/*", dest: "./generators/app/templates" }],
         }),
         json(),
+        nodeResolve({
+            preferBuiltins: true,
+        }),
+        commonjs(),
     ],
 };
