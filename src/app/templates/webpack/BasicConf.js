@@ -24,7 +24,8 @@ function useBasicConfig(nodeEnv) {
     const isDev = nodeEnv.toLowerCase() === 'development';
     const isProduction = nodeEnv.toLowerCase() === 'production';
 
-    const { cssPreprocessors } = configure;
+    // add css and css preprocessor loaders
+    const { cssPreprocessors, isTsNeeded } = configure;
 
     const css = {
         test: /\.css$/i,
@@ -87,11 +88,13 @@ function useBasicConfig(nodeEnv) {
 
     Object.assign(cssLoaders, { styleResource });
 
+    // extensions that can be omitted
     const extensions = ['.js', '.jsx', '.json', '.cjs', '.mjs', '.ts', '.tsx'];
 
+    // basic configure
     const mergedConf = {
         entry: {
-            index: [resolve(__dirname, '../src/index.tsx')],
+            index: [resolve(__dirname, `../src/index.${isTsNeeded ? 't' : 'j'}sx`)],
         },
         output: {
             filename: '[name].[contenthash].bundle.js',
@@ -170,9 +173,9 @@ function useBasicConfig(nodeEnv) {
                 .devServer.compress(true)
                 .port(8333)
                 .hot(true)
+                .open(false)
                 .end();
             
-            const { isTsNeeded } = configure;
             if (isTsNeeded) {
                 // check ts in dev environment
                 config.plugin('ForkTsCheckerWebpackPlugin')

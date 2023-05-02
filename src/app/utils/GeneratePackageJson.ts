@@ -24,7 +24,7 @@ export function usePackageJson({
         description: "Really basic Solid webpack build with TS",
         license: "ISC",
         scripts: {
-            start: "cross-env NODE_ENV=development webpack serve --open",
+            start: "cross-env NODE_ENV=development webpack serve",
             build: "cross-env NODE_ENV=production webpack",
         },
     };
